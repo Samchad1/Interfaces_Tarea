@@ -12,13 +12,25 @@ camera.position.z = 7; // Alejar la cámara para que se vean todos los objetos
 
 // Crear el renderizador
 const renderer = new THREE.WebGLRenderer();
+renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xeeeeee);
 document.body.appendChild(renderer.domElement);
+
+// Ajustar el lienzo cuando se cambie el tamaño de la ventana
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 // Añadir una luz
 const light = new THREE.PointLight(0xffffff, 1); // color blanco, intensidad 1
 light.position.set(10, 10, 10);
 scene.add(light);
+
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
 
 // Cubo
 const geometryCubo = new THREE.BoxGeometry();
